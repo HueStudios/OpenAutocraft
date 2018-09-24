@@ -2,11 +2,11 @@
 
 (local inventory-ctl {})
 
-(set inventory-ctl.craft [1 2 3 5 6 7 9 10 11])
-(set inventory-ctl.input sides.down)
-(set inventory-ctl.output sides.down)
-(set inventory-ctl.items {})
-(set inventory-ctl.forced {})
+(local craftslots [1 2 3 5 6 7 9 10 11])
+(local input sides.down)
+(local output sides.down)
+(local items {})
+(local forced {})
 (defn inventory-ctl.real-amount [referid])
 
 ;forced amount of items
