@@ -1,7 +1,7 @@
 (local crafting-db {})
 
 ;resolve referid to shortid
-(defn crafting-db.refid->shortid [referid])
+(defn crafting-db.referid->shortid [referid])
 ;resolve shortid to multiple referids
 (defn crafting-db.shortid->referids [shortid])
 
