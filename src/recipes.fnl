@@ -8,9 +8,10 @@
 
 (set recipes.recipes
   [
-    { :kind "craft" ;craft as default ?
+    { :kind "craft" ;"craft" as default ?
       :maxbatch 64 ;64 as default
       :minbatch 1 ;1 as default
+      :gamble false ;false as default
       :pattern
         [ 0 0 0
           0 0 0
