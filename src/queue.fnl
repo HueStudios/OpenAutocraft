@@ -14,7 +14,7 @@
       (set new-queue.last (+ new-queue.last 1))
       (tset new-queue.data new-queue.last value))
 
-  (defn new-queue.pop-left [self]
+  (defn new-queue.pop-left []
     ;(local first self.first)
     (var value nil)
     (when (new-queue.not-empty?)
