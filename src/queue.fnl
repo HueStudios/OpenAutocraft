@@ -1,6 +1,4 @@
-(local queue {})
-
-(defn queue.new []
+(defn queue []
   (local new-queue {})
   (set new-queue.first 0)
   (set new-queue.last -1)
@@ -42,5 +40,3 @@
     the-all)
 
   new-queue)
-
-queue
