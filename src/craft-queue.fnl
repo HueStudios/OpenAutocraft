@@ -3,7 +3,7 @@
 (defn craft-queue [inventory craft-db]
   (local self {})
   (set self.masteritems [])
-  (local tmp-queue (queue.new))
+  (set self.tmp-queue (queue))
   ;(local foo dynamic-list-thing)
 
   (defn self.queue-recipe [recipe]
@@ -14,8 +14,10 @@
       (if (> needed 0)
           (do
             (local sub-recipe (craft-db.providing-recipe-any referid))
+            (when (not sub-recipe)
+              (error (.. "no recipe for " referid)))
             (local crafts-needed (craft-db.crafts-for-result sub-recipe referid needed))
-            (local crafts-result (craft-db.recipe-multi-results sub-recipe crafts-needed))
+            (local crafts-result (craft-db.recipe-results sub-recipe crafts-needed))
 
             (each [result-referid result-amount (pairs crafts-result)]
               (inventory.add-forced result-referid result-amount))
