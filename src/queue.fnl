@@ -1,46 +1,42 @@
-(local Queue {})
-(set Queue.__index Queue)
+(defn queue []
+  (local new-queue {})
+  (set new-queue.first 0)
+  (set new-queue.last -1)
+  (set new-queue.data {})
 
-(defn Queue.new []
-  (let [self (setmetatable {} Queue)]
-    (set self.first 0)
-    (set self.last -1)
-    (set self.data {})
-    self))
+  (defn new-queue.push-left [value]
+    (set new-queue.first (- new-queue.first 1))
+    (tset new-queue.data new-queue.first value))
 
-(defn Queue.push-left [self value]
-  (set self.first (- self.first 1))
-  (tset self.data self.first value))
+  (defn new-queue.push-right [value]
+      (set new-queue.last (+ new-queue.last 1))
+      (tset new-queue.data new-queue.last value))
 
-(defn Queue.push-right [self value]
-  (set self.last (+ self.last 1))
-  (tset self.data self.last value))
+  (defn new-queue.pop-left []
+    ;(local first self.first)
+    (var value nil)
+    (when (new-queue.not-empty?)
+      (set value (. new-queue.data new-queue.first))
+      (tset new-queue.data new-queue.first nil)
+      (set new-queue.first (+ new-queue.first 1)))
+    value)
 
-(defn Queue.pop-left [self]
-  ;(local first self.first)
-  (var value nil)
-  (when (: self :not-empty?)
-    (set value (. self.data self.first))
-    (tset self.data self.first nil)
-    (set self.first (+ self.first 1)))
-  value)
+  (defn new-queue.pop-right []
+    (var value nil)
+    (when (new-queue.not-empty?)
+      (set value (. new-queue.data new-queue.last))
+      (tset new-queue.data new-queue.last nil)
+      (set new-queue.last (- new-queue.last 1)))
+    value)
 
-(defn Queue.pop-right [self]
-  (var value nil)
-  (when (: self :not-empty?)
-    (set value (. self.data self.last))
-    (tset self.data self.last nil)
-    (set self.last (- self.last 1)))
-  value)
+  ;; TODO evaluate
+  (defn new-queue.not-empty? []
+    (<= new-queue.first new-queue.last))
 
-;; TODO evaluate
-(defn Queue.not-empty? [self]
-  (<= self.first self.last))
+  (defn new-queue.peek-all []
+    (local the-all [])
+    (for [i new-queue.first new-queue.last]
+      (tset the-all (+ 1 (# the-all)) (. new-queue.data i)))
+    the-all)
 
-(defn Queue.peek-all [self]
-  (local the-all [])
-  (for [i self.first self.last]
-    (tset the-all (+ 1 (# the-all)) (. self.data i)))
-  the-all)
-
-Queue
+  new-queue)
