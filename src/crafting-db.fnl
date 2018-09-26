@@ -41,18 +41,6 @@
         (tset r referid (+ (or (. r referid) 0) 1))))
     r)
 
-  ;find all recipes by referid
-  (defn self.providing-recipes [referid]
-    (local r [])
-    (each [i recipe (ipairs recipedata.recipes)]
-      (when (. (self.recipe-results recipe) referid)
-        (tset r (+ (# r) 1) recipe)))
-    r)
-
-  ;find any recipe by referid
-  (defn self.providing-recipe-any [referid]
-    (. (self.providing-recipes referid) 1))
-
   ;result of multiple recipe crafting
   (defn self.recipe-multi-results [recipe amount]
     (local r [])
@@ -70,4 +58,21 @@
         (tset r referid (+ (or (. r referid) 0) amount))))
     r)
 
+  (defn self.crafts-for-result [recipe referid target-amount]
+    (let [single-amount (. (or (self.recipe-results recipe) {}) referid)]
+      (if single-amount
+          (math.ceil (/ target-amount single-amount))
+          nil)))
+
+  ;find all recipes by referid
+  (defn self.providing-recipes [referid]
+    (local r [])
+    (each [i recipe (ipairs recipedata.recipes)]
+      (when (. (self.recipe-results recipe) referid)
+        (tset r (+ (# r) 1) recipe)))
+    r)
+
+  ;find any recipe by referid
+  (defn self.providing-recipe-any [referid]
+    (. (self.providing-recipes referid) 1))
   self)
