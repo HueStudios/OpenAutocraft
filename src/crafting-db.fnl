@@ -32,12 +32,13 @@
   (defn self.recipe-results [recipe amount]
     (local amount (or amount 1))
     (local r {})
-    (when recipe
+    (if recipe
       ;FIXME handle number
       (each [shortid|number n (pairs (. recipe :result))]
         ;FIXME non-nil assert referid|nil
         (let [referid|nil (self.shortid->referid-any shortid|number)]
-          (tset r referid|nil  (* n amount)))))
+          (tset r referid|nil  (* n amount))))
+      (error "no recipe to resolve results for"))
     r)
 
   ;;requiremets for recipe crafting
@@ -56,10 +57,10 @@
 
   ;;how many crafts for desired result amount
   (defn self.crafts-for-result [recipe referid target-amount]
-    (let [single-amount (. (or (self.recipe-results recipe) {}) referid)]
+    (let [single-amount (. (self.recipe-results recipe) referid)]
       (if single-amount
           (math.ceil (/ target-amount single-amount))
-          nil)))
+          (error "can not resolve amount of single craft"))))
 
   ;;find all recipes by referid
   (defn self.providing-recipes [referid]
