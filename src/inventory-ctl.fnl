@@ -43,7 +43,7 @@
 
   ;add to forced amount of referid
   (defn self.add-forced [referid amount]
-    (tset items-forced referid (+ (self.forced-amount) amount)))
+    (tset items-forced referid (+ (self.forced-amount referid) amount)))
 
   ;wipe all forced items
   (defn self.wipe-forced []
