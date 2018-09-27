@@ -1,7 +1,9 @@
+(local util (require :util))
+
 (defn crafting-db [recipedata]
   (local self {})
 
-  ;resolve referid to shortids
+  ;;resolve referid to shortids
   (defn self.referid->shortids [referid]
     (local r [])
     (each [i pdic (ipairs recipedata.items)]
@@ -10,11 +12,11 @@
           (tset r (+ (# r) 1) (. pdic 1)))))
     r)
 
-  ;resolve referid to single shortid
+  ;;resolve referid to single shortid
   (defn self.referid->shortid-any [referid]
     (. (self.referid->shortids referid) 1))
 
-  ;resolve shortid to multiple referids
+  ;;resolve shortid to multiple referids
   (defn self.shortid->referids [shortid]
     (local r [])
     (each [i pdic (ipairs recipedata.items)]
@@ -24,24 +26,45 @@
             (tset r (+ (# r) 1) vv)))))
     r)
 
-  ;resolve shortid to single referid
+  ;;resolve shortid to single referid
   (defn self.shortid->referid-any [shortid]
     (. (self.shortid->referids shortid) 1))
 
-  ;result of single recipe crafting
-  (defn self.recipe-results [recipe]
-    (when recipe
-      (. recipe :result)))
-
-  ;requiremets for single recipe crafting
-  (defn self.recipe-requirements [recipe]
+  ;;result of recipe crafting
+  (defn self.recipe-results [recipe amount]
+    (local amount (or amount 1))
     (local r {})
-    (when recipe
-      (each [i referid (ipairs (. recipe :pattern))]
-        (tset r referid (+ (or (. r referid) 0) 1))))
+    (if recipe
+      ;FIXME handle number
+      (each [shortid|number n (pairs (. recipe :result))]
+        ;FIXME non-nil assert referid|nil
+        (let [referid|nil (self.shortid->referid-any shortid|number)]
+          (tset r referid|nil  (* n amount))))
+      (util.error "no recipe to resolve results for"))
     r)
 
-  ;find all recipes by referid
+  ;;requiremets for recipe crafting
+  (defn self.recipe-requirements [recipe amount]
+    (local amount (or amount 1))
+    (local r {})
+    (when recipe
+      (each [i shortid|number (ipairs (. recipe :pattern))]
+        (if (= (type shortid|number) :number)
+          (do)
+          ;FIXME non-nil assert referid|nil
+          (let [referid|nil (self.shortid->referid-any shortid|number)
+                cur-n (or (. r referid|nil) 0)]
+            (tset r referid|nil (+ cur-n amount))))))
+    r)
+
+  ;;how many crafts for desired result amount
+  (defn self.crafts-for-result [recipe referid target-amount]
+    (let [single-amount (. (self.recipe-results recipe) referid)]
+      (if single-amount
+          (math.ceil (/ target-amount single-amount))
+          (util.error "can not resolve amount of single craft"))))
+
+  ;;find all recipes by referid
   (defn self.providing-recipes [referid]
     (local r [])
     (each [i recipe (ipairs recipedata.recipes)]
@@ -49,25 +72,7 @@
         (tset r (+ (# r) 1) recipe)))
     r)
 
-  ;find any recipe by referid
+  ;;find any recipe by referid
   (defn self.providing-recipe-any [referid]
     (. (self.providing-recipes referid) 1))
-
-  ;result of multiple recipe crafting
-  (defn self.recipe-multi-results [recipe amount]
-    (local r [])
-    (when recipe
-      (let [result (. recipe :result)]
-        (each [referid n (pairs result)]
-          (tset r referid (+ (or (. r referid) 0) (* n amount))))))
-    r)
-
-  ;requirements for multiple recipe crafting
-  (defn self.recipe-multi-requirements [recipe amount]
-    (local r {})
-    (when recipe
-      (each [i referid (ipairs (. recipe :pattern))]
-        (tset r referid (+ (or (. r referid) 0) amount))))
-    r)
-
   self)
