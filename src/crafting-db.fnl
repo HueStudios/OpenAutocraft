@@ -1,3 +1,5 @@
+(local util (require :util))
+
 (defn crafting-db [recipedata]
   (local self {})
 
@@ -38,7 +40,7 @@
         ;FIXME non-nil assert referid|nil
         (let [referid|nil (self.shortid->referid-any shortid|number)]
           (tset r referid|nil  (* n amount))))
-      (error "no recipe to resolve results for"))
+      (util.error "no recipe to resolve results for"))
     r)
 
   ;;requiremets for recipe crafting
@@ -60,7 +62,7 @@
     (let [single-amount (. (self.recipe-results recipe) referid)]
       (if single-amount
           (math.ceil (/ target-amount single-amount))
-          (error "can not resolve amount of single craft"))))
+          (util.error "can not resolve amount of single craft"))))
 
   ;;find all recipes by referid
   (defn self.providing-recipes [referid]

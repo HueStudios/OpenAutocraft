@@ -27,4 +27,12 @@
   (each [k v (pairs (. recipe :result))]
     (print (.. "(result " k " " v")"))))
 
+(defn util.error [message]
+  (print (.. "<!> " message))
+  (os.exit))
+
+(defn util.warn [message]
+  (print (.. "<~> " message))
+  (os.exit))
+
 util
