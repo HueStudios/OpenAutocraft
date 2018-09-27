@@ -1,4 +1,5 @@
 (local queue (require :queue))
+(local util (require :util))
 
 (defn craft-queue [inventory craft-db]
   (local self {})
@@ -15,7 +16,7 @@
           (do
             (local sub-recipe (craft-db.providing-recipe-any referid))
             (when (not sub-recipe)
-              (error (.. "no recipe for " referid)))
+              (util.error (.. "no recipe for " referid)))
             (local crafts-needed (craft-db.crafts-for-result sub-recipe referid needed))
             (local crafts-result (craft-db.recipe-results sub-recipe crafts-needed))
 
@@ -25,8 +26,9 @@
             (for [t 1 crafts-needed]
               (self.queue-recipe sub-recipe)))
           (do))
-      (inventory.add-forced referid amount))
-    (self.tmp-queue.push-left recipe))
+      (inventory.add-forced referid (- amount)))
+    ;XXX changed push destination
+    (self.tmp-queue.push-right recipe))
 
   (defn self.sort-queue [])
 
