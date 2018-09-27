@@ -1,5 +1,13 @@
+(local meta-queue {})
+(defn meta-queue.__tostring [debug-queue]
+  (local to-return "")
+  (each [i v (ipairs (debug-queue.peek-all))]
+    (set to-return (.. to-return (util.recipe-results-string v))))
+  to-return)
+
 (defn queue []
   (local new-queue {})
+  (setmetatable new-queue meta-queue)
   (set new-queue.first 0)
   (set new-queue.last -1)
   (set new-queue.data {})

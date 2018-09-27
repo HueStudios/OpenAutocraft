@@ -23,9 +23,14 @@
   (local tmp-list (queue.peek-all))
   (util.print-list tmp-list))
 
-(defn util.print-recipe-results [recipe]
+(defn util.recipe-results-string [recipe]
+  (local results)
   (each [k v (pairs (. recipe :result))]
-    (print (.. "(result " k " " v")"))))
+    (set results (.. results "\n(result " k " " v")")))
+  results)
+
+(defn util.print-recipe-results [recipe]
+  (print (util.recipe-results-string recipe)))
 
 (defn util.error [message]
   (print (.. "<!> " message))
