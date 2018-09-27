@@ -54,12 +54,9 @@
     (local stacks ((. (ic.getAllStacks input) :getAll)))
     (set inventory [])
     (each [k stack (pairs stacks)]
-      ;(print k stack)
-      (each [kk vv (pairs stack)]
-        ;(print kk vv)
-        (let [stackdata (us.stack->stackdata stack)]
-          (self.add-real stackdata.referid stackdata.amount)
-          (tset inventory k stackdata)))))
+      (let [stackdata (us.stack->stackdata stack)]
+        (self.add-real stackdata.referid stackdata.amount)
+        (tset inventory k stackdata))))
 
   ;find item locations in inventory
   (defn self.find-item [referid]
