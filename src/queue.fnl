@@ -1,6 +1,6 @@
 (local meta-queue {})
 (defn meta-queue.__tostring [debug-queue]
-  (local to-return "")
+  (var to-return "")
   (each [i v (ipairs (debug-queue.peek-all))]
     (set to-return (.. to-return (util.recipe-results-string v))))
   to-return)

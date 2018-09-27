@@ -24,7 +24,7 @@
   (util.print-list tmp-list))
 
 (defn util.recipe-results-string [recipe]
-  (local results)
+  (var results "")
   (each [k v (pairs (. recipe :result))]
     (set results (.. results "\n(result " k " " v")")))
   results)
