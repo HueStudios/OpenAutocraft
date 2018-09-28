@@ -51,7 +51,6 @@
   (os.exit))
 
 (defn util.warn [message]
-  (print (.. "<~> " message))
-  (os.exit))
+  (print (.. "<~> " message)))
 
 util
