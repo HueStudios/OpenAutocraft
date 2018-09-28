@@ -104,4 +104,8 @@
 
     (set self.tmp-queue (queue)))
 
+
+  (defn self.pop-craft []
+    (self.craft-queue.pop-left))
+
   self)
