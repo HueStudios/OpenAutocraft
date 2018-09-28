@@ -47,4 +47,10 @@
       (tset the-all (+ 1 (# the-all)) (. new-queue.data i)))
     the-all)
 
+  (defn new-queue.peek-all-reverse []
+    (local the-all [])
+    (for [i new-queue.last new-queue.first -1]
+      (tset the-all (+ 1 (# the-all)) (. new-queue.data i)))
+    the-all)
+
   new-queue)
