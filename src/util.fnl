@@ -11,6 +11,26 @@
   (each [k v (pairs (. recipe :result))]
     (print "result" k v)))
 
+(defn util.recipe-results-string [recipe]
+  (var results "")
+  (each [k v (pairs (. recipe :result))]
+    (set results (.. results " " k " " v)))
+  (set results (.. results " ;"))
+  results)
+
+(defn util.recipe-id [recipe]
+  (..
+    "("
+    (or (. recipe :kind) "default")
+    " "
+    ;(or (. recipe :maxbatch) "default")
+    ;" "
+    ;(or (. recipe :minbatch) "default")
+    "("
+    (util.recipe-results-string recipe)
+    ")"
+    ")"))
+
 (defn util.print-list [list]
   (each [i v (ipairs list)]
     (print i v)))
@@ -22,12 +42,6 @@
 (defn util.print-queue [queue]
   (local tmp-list (queue.peek-all))
   (util.print-list tmp-list))
-
-(defn util.recipe-results-string [recipe]
-  (var results "")
-  (each [k v (pairs (. recipe :result))]
-    (set results (.. results "\n(result " k " " v")")))
-  results)
 
 (defn util.print-recipe-results [recipe]
   (print (util.recipe-results-string recipe)))
