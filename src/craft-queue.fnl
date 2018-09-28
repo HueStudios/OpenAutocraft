@@ -92,7 +92,7 @@
 
     (each [i v (ipairs sort-buffer)]
       (var bigvar (. v 2))
-      (local maxbatch 64) ;FIXME get it from recipe instead
+      (local maxbatch (or (. (. v 3) :maxbatch) 64))
       (var nom (math.floor (/ bigvar maxbatch)))
       (var rem (- bigvar (* maxbatch nom)))
 
