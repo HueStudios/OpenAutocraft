@@ -6,12 +6,12 @@
 
 (local us (require :util-stack))
 
-(defn inventory-ctl []
+(defn inventory-ctl [crafting-db]
   (local self {})
 
   (local craftslots [1 2 3 5 6 7 9 10 11])
-  (local input sides.down)
-  (local output sides.down)
+  (set self.input sides.down)
+  (set self.output sides.down)
   (var inventory [])
   (var items-real {})
   (var items-forced {})
@@ -51,7 +51,7 @@
 
   ;scan inventory
   (defn self.scan []
-    (local stacks ((. (ic.getAllStacks input) :getAll)))
+    (local stacks ((. (ic.getAllStacks self.input) :getAll)))
     (set inventory [])
     (each [k stack (pairs stacks)]
       (let [stackdata (us.stack->stackdata stack)]
@@ -73,18 +73,43 @@
       (find-slots))
     r)
 
-  ;move item to inventory
-  (defn self.move-craftslot [inventory-slot craft-slot amount]
+  ;;move item to inventory
+  ;(defn self.move-craftslot [inventory-slot craft-slot amount]
+  ;  (local amount (or amount 1))
+  ;  (local d-slot (. craftslots craft-slot))
+  ;  (robot.select d-slot)
+  ;  (ic.suckFromSlot self.input inventory-slot amount)
+  ;  (tset (. self.inventory inventory-slot) :amount (- (. (. self.inventory inventory-slot) :amount) 1)))
+
+  (defn self.craftslot-shortid [shortid craft-slot amount]
+    (self.scan)
     (local amount (or amount 1))
+    (var wanted amount)
     (local d-slot (. craftslots craft-slot))
     (robot.select d-slot)
-    (ic.suckFromSlot self.input inventory-slot amount)
-    (tset (. self.inventory inventory-slot) :amount (- (. (. self.inventory inventory-slot) :amount) 1)))
+    ;(ic.suckFromSlot self.input inventory-slot amount))
+    (local items (self.find-item (crafting-db.shortid->referid-any shortid)))
+    (each [slot stack (pairs items)]
+      (when (> wanted 0)
+        (let [to-pull (math.min (. stack :amount) wanted)]
+          ;(print "wanted" wanted)
+          (ic.suckFromSlot self.input slot to-pull)
+          (set wanted (- wanted to-pull))))))
 
   ;fill recipe for crafting
-  (defn self.fill-recipe [recipe times]
-    (local times (or times 1)))
-    ;TODO will depend on recipe format
+  (defn self.fill-recipe [craftoperation]
+    ;(self.scan)
+    (each [i v (ipairs craftoperation)]
+      (when (~= (. v 1) 0)
+        (self.craftslot-shortid (. v 1) i (. v 2)))))
+        ;(var wanted (. v 2))
+        ;(print wanted)
+        ;(local items (self.find-item (crafting-db.shortid->referid-any (. v 1))))
+        ;(each [slot stack (pairs items)]
+        ;  (when (> wanted 0)
+        ;    (print wanted)
+        ;    (self.move-craftslot slot i (. stack :amount))
+        ;    (set wanted (- wanted (. stack :amount)))))))
 
   ;clean robot from start to stop slot
   (defn self.clean-robot [start stop]
@@ -97,7 +122,7 @@
   ;execute craft
   (defn self.craft [times]
     (local crafting c.crafting)
-    (robot.select 1)
-    (c.craft times))
+    (robot.select 13)
+    (crafting.craft times))
 
   self)
