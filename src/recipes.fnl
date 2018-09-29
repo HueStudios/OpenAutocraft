@@ -34,6 +34,7 @@
     [:oc_memory3.5 "opencomputers:component:Memory (Tier 3.5)"]
     [:mc_obsidian "minecraft:obsidian:Obsidian"]
     [:oc_server3 "opencomputers:component:Server (Tier 3)"]
+    [:oc_cable "opencomputers:cable:Cable"]
     [:mc_diamond "minecraft:diamond:Diamond"]])
 
 
@@ -125,7 +126,14 @@
         [ 0 0 0
           :mc_stick :mc_nugget_iron :mc_stick
           0 0 0]
-      :result {:oc_cuttingwire 1}}
+      :result {:oc_cuttingwire 1}
+
+      { :kind "craft"
+        :pattern
+          [ 0 :mc_nugget_iron 0
+            :mc_nugget_iron :mc_dust_redstone :mc_nugget_iron
+            0 :mc_nugget_iron 0]
+        :result {:oc_cable 4}}}
 
     { :kind "craft"
       :pattern
