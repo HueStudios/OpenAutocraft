@@ -27,8 +27,13 @@
     [:oc_chip2 "opencomputers:material:Microchip (Tier 2)"]
     [:oc_chip3 "opencomputers:material:Microchip (Tier 3)"]
     [:oc_cpu3 "opencomputers:component:Central Processing Unit (CPU) (Tier 3)"]
+    [:oc_bus3 "opencomputers:component:Component Bus (Tier 3)"]
     [:oc_alu "opencomputers:material:Arithmetic Logic Unit (ALU)"]
     [:oc_cu "opencomputers:material:Control Unit (CU)"]
+    [:oc_pcb "opencomputers:material:Printed Circuit Board (PCB)"]
+    [:oc_memory3.5 "opencomputers:component:Memory (Tier 3.5)"]
+    [:mc_obsidian "minecraft:obsidian:Obsidian"]
+    [:oc_server3 "opencomputers:component:Server (Tier 3)"]
     [:mc_diamond "minecraft:diamond:Diamond"]])
 
 
@@ -163,6 +168,27 @@
           :mc_dust_redstone :oc_transistor :mc_dust_redstone
           :mc_nugget_iron :mc_nugget_iron :mc_nugget_iron]
       :result {:oc_chip1 8}}
+
+    { :kind "craft"
+      :pattern
+        [ :oc_nugget_diamond :mc_dust_redstone :oc_nugget_diamond
+          :oc_chip3 :oc_cu 0
+          :oc_nugget_diamond :oc_pcb :oc_nugget_diamond]
+      :result {:oc_bus3 1}
+
+      { :kind "craft"
+        :pattern
+          [ 0 0 0
+            :oc_chip3 :oc_chip3 :oc_chip3
+            :oc_chip2 :oc_pcb :oc_chip2]
+        :result {:oc_memory3.5 1}}
+
+      { :kind "craft"
+        :pattern
+          [ :mc_diamond :oc_memory3.5 :mc_diamond
+            :oc_chip3 :oc_bus3 :oc_chip3
+            :mc_obsidian :oc_pcb :mc_obsidian]
+        :result {:oc_server3 1}}}
 
     { :kind "craft"
       :pattern
