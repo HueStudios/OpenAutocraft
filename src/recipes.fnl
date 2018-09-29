@@ -126,14 +126,14 @@
         [ 0 0 0
           :mc_stick :mc_nugget_iron :mc_stick
           0 0 0]
-      :result {:oc_cuttingwire 1}
+      :result {:oc_cuttingwire 1}}
 
-      { :kind "craft"
-        :pattern
-          [ 0 :mc_nugget_iron 0
-            :mc_nugget_iron :mc_dust_redstone :mc_nugget_iron
-            0 :mc_nugget_iron 0]
-        :result {:oc_cable 4}}}
+    { :kind "craft"
+      :pattern
+        [ 0 :mc_nugget_iron 0
+          :mc_nugget_iron :mc_dust_redstone :mc_nugget_iron
+          0 :mc_nugget_iron 0]
+      :result {:oc_cable 4}}
 
     { :kind "craft"
       :pattern
@@ -182,21 +182,21 @@
         [ :oc_nugget_diamond :mc_dust_redstone :oc_nugget_diamond
           :oc_chip3 :oc_cu 0
           :oc_nugget_diamond :oc_pcb :oc_nugget_diamond]
-      :result {:oc_bus3 1}
+      :result {:oc_bus3 1}}
 
-      { :kind "craft"
-        :pattern
-          [ 0 0 0
-            :oc_chip3 :oc_chip3 :oc_chip3
-            :oc_chip2 :oc_pcb :oc_chip2]
-        :result {:oc_memory3.5 1}}
+    { :kind "craft"
+      :pattern
+        [ 0 0 0
+          :oc_chip3 :oc_chip3 :oc_chip3
+          :oc_chip2 :oc_pcb :oc_chip2]
+      :result {:oc_memory3.5 1}}
 
-      { :kind "craft"
-        :pattern
-          [ :mc_diamond :oc_memory3.5 :mc_diamond
-            :oc_chip3 :oc_bus3 :oc_chip3
-            :mc_obsidian :oc_pcb :mc_obsidian]
-        :result {:oc_server3 1}}}
+    { :kind "craft"
+      :pattern
+        [ :mc_diamond :oc_memory3.5 :mc_diamond
+          :oc_chip3 :oc_bus3 :oc_chip3
+          :mc_obsidian :oc_pcb :mc_obsidian]
+      :result {:oc_server3 1}}
 
     { :kind "craft"
       :pattern
