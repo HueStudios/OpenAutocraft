@@ -22,6 +22,7 @@
     [:mc_paper "minecraft:paper:Paper"]
     [:oc_transistor "opencomputers:material:Transistor"]
     [:mc_clock "minecraft:clock:Clock"]
+    [:mc_dust_glowstone "minecraft:glowstone_dust:Glowstone Dust"]
     [:mc_nugget_iron "minecraft:iron_nugget:Iron Nugget"]
     [:oc_chip1 "opencomputers:material:Microchip (Tier 1)"]
     [:oc_chip2 "opencomputers:material:Microchip (Tier 2)"]
@@ -29,12 +30,14 @@
     [:oc_cpu3 "opencomputers:component:Central Processing Unit (CPU) (Tier 3)"]
     [:oc_bus3 "opencomputers:component:Component Bus (Tier 3)"]
     [:oc_alu "opencomputers:material:Arithmetic Logic Unit (ALU)"]
+    [:mc_glass "minecraft:glass:Glass"]
     [:oc_cu "opencomputers:material:Control Unit (CU)"]
     [:oc_pcb "opencomputers:material:Printed Circuit Board (PCB)"]
     [:oc_memory3.5 "opencomputers:component:Memory (Tier 3.5)"]
     [:mc_obsidian "minecraft:obsidian:Obsidian"]
     [:oc_server3 "opencomputers:component:Server (Tier 3)"]
     [:oc_cable "opencomputers:cable:Cable"]
+    [:oc_screen3 "opencomputers:screen3:Screen (Tier 3)"]
     [:mc_diamond "minecraft:diamond:Diamond"]])
 
 
@@ -92,6 +95,13 @@
           :mc_button_stone :mc_button_stone :mc_button_stone
           :mc_button_stone :mc_button_stone :mc_button_stone]
       :result {:oc_buttongroup 1}}
+
+    { :kind "craft"
+      :pattern
+        [ :mc_obsidian :mc_dust_glowstone :mc_obsidian
+          :mc_dust_glowstone :oc_chip3 :mc_glass
+          :mc_obsidian :mc_dust_glowstone :mc_obsidian]
+      :result {:oc_screen3 1}}
 
     { :kind "craft"
       :pattern
