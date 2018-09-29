@@ -14,8 +14,8 @@ build-dir:
 src/*.fnl: build-dir
 	fennel --compile src/$(@F) | tee build/$(basename $(@F)).lua
 
-#patch:
-#	echo 'local args = {...}' | cat - build/storemaster.lua > temp && mv temp build/storemaster.lua
+patch:
+	echo 'local args = {...}' | cat - build/test.lua > temp && mv temp build/test.lua
 
 #debug: all patch
 #	REDACTED
