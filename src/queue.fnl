@@ -1,3 +1,4 @@
+(local util (require :util))
 (local meta-queue {})
 (defn meta-queue.__tostring [debug-queue]
   (var to-return "")
